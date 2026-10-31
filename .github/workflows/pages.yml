@@ -1,0 +1,57 @@
+name: Publicar no GitHub Pages
+
+# Publica o hub em https://<usuario>.github.io/hub/. Além do push, roda todo dia para pegar
+# páginas novas, e pode ser disparado por outro repo com repository_dispatch (tipo pagina-atualizada).
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 9 * * *"
+  repository_dispatch:
+    types: [pagina-atualizada]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - id: pages
+        uses: actions/configure-pages@v5
+      - run: npm ci
+      - run: node scripts/coletar-paginas.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm run build
+        env:
+          # Vazio quando o repo usa domínio próprio na raiz; /<repo> no endereço padrão do Pages.
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "css": "app/globals.css"
+  },
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "registries": {
+    "@marcio": "https://github.com/wenderu00/mwds/releases/download/v0.22.1/{name}.json"
+  },
+  "iconLibrary": "lucide"
+}

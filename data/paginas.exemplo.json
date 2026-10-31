@@ -1,0 +1,18 @@
+[
+  {
+    "repo": "catalogo-onibus",
+    "nome": "Catálogo de ônibus",
+    "descricao": "Linhas de ônibus e micro-ônibus de Barra de Jangada, com horários e pontos.",
+    "tags": ["mobilidade", "jaboatão"],
+    "url": "https://wenderu00.github.io/catalogo-onibus/",
+    "atualizadaEm": "2026-10-29T14:00:00Z"
+  },
+  {
+    "repo": "mwds-pagina",
+    "nome": "Página de exemplo",
+    "descricao": "O template de onde toda página do hub nasce.",
+    "tags": ["template"],
+    "url": "https://wenderu00.github.io/mwds-pagina/",
+    "atualizadaEm": "2026-10-28T10:00:00Z"
+  }
+]
